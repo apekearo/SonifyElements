@@ -50,73 +50,69 @@ function getCurrentTabUrl(callback) {
 /**
  * @param {string} elements
  */
-window.onload = function () {
+window.onload = function (elements) {
 document.getElementById("demo").onclick = function() {myFunction()};
 
 function myFunction() {
     var nodelist = document.body.childNodes;
-    
-    var txt = "";
-    var i;
-    for (i = 0; i < nodelist.length; i++) {
-      //i might need to remove the <br> still trying to if statent to ring true
-        txt = txt + nodelist[i].nodeName + "<br>";
-        if(txt == "#text")
-        {console.log("working here")}
-        else if (txt == "#comment")
-        {console.log("caught one")}
-        else {console.log("not working here")}
+    const assignElementsAudio = function(nodes){
+      nodes.forEach(function(node){
+          playSoundFor(node);
+      })
+  };
 
-    }
+  function playSoundFor(node){
+      switch(node.nodeName){
+          case "#text":
+              return playStomachThumps();
+          break;
+          case "#comment":
+              return playStomachThumps();
+          break;
+          default:
+              return "no sound"
 
-    document.getElementById("demo").innerHTML = txt;
-    
-      var x = document.createElement("AUDIO");
-        if (x.canPlayType("audio/mpeg")) {
-          x.setAttribute("src","media/Stomach_Thumps.mp3");
       }
-  
+  }
+
+  function playSound(file){
+      var x = document.createElement("AUDIO");
+      if (x.canPlayType("audio/mpeg")) {
+          x.setAttribute("src",file);
+      }
       x.setAttribute("controls", "controls");
       document.body.appendChild(x);
+  }
+
+  function playStomachThumps(){
+      return playSound("media/Stomach_Thumps.mp3")
+  }
+
+  assignElementsAudio(nodelist);
   
 chrome.tabs.executeScript({
     code: script
   });
 }}
-//   function myFunction() {
-//     var nodelist = document.body.childNodes;
-    
-//     var txt = "";
-//     var i;
-//     for (i = 0; i < nodelist.length; i++) {
-//         txt = txt + nodelist[i].nodeName + "<br>";
-//     }
-
-//     document.getElementById("demo").innerHTML = txt;
-// }
-  // See https://developer.chrome.com/extensions/tabs#method-executeScript.
-  // chrome.tabs.executeScript allows us to programmatically inject JavaScript
-  // into a page. Since we omit the optional first argument "tabId", the script
-  // is inserted into the active tab of the current window, which serves as the
-  // default.
-  
 
 
 /**
  * Gets the saved background color for url.
  *
-//  *  URL whose background color is to be retrieved.
-//  *  called with the saved background color for
+//  *  @param {string} url URL whose background color is to be retrieved.
+//  *  @param {function(string)} callback called with the saved background color for
 //  *     the given url on success, or a falsy value if no color is retrieved.
 //  */
+
+      function getSavedElementsList (url, callback){
 // function getSavedBackgroundColor(url, callback) {
 //   // See https://developer.chrome.com/apps/storage#type-StorageArea. We check
 //   // for chrome.runtime.lastError to ensure correctness even when the API call
 //   // fails.
-//   chrome.storage.sync.get(url, (items) => {
-//     callback(chrome.runtime.lastError ? null : items[url]);
-//   });
-// }
+  chrome.storage.sync.get(url, (items) => {
+    callback(chrome.runtime.lastError ? null : items[url]);
+  });
+}
 
 // /**
 //  * Sets the given background color for url.
