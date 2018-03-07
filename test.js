@@ -1,4 +1,5 @@
 function myFunction() {
+    
     var nodelist = document.body.childNodes;
     const assignElementsAudio = function(nodes){
       nodes.forEach(function(node){
@@ -7,6 +8,7 @@ function myFunction() {
   };
 
   function playSoundFor(node){
+      console.log(node.nodeName)
       switch(node.nodeName){
           case "#text":
               return playStomachThumps();
@@ -14,6 +16,8 @@ function myFunction() {
           case "#comment":
               return playStomachThumps();
           break;
+          case "P":
+                return playKick();
           default:
               return "no sound"
 
@@ -32,5 +36,12 @@ function myFunction() {
   function playStomachThumps(){
       return playSound("media/Stomach_Thumps.mp3")
   }
+  
+  function playKick(){
+      return playsound("media/Crash_Layer_Kick_Drum.mp3")
+  }
+  function playDrumset(){
+      return playsound("media/Crash_Layer_Drumset.mp3")
+  }
 
-  assignElementsAudio(nodelist);
+    assignElementsAudio(nodelist);}

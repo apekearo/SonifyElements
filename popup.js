@@ -47,10 +47,7 @@ function getCurrentTabUrl(callback) {
   // alert(url); // Shows "undefined", because chrome.tabs.query is async.
 }
 
-/**
- * @param {string} elements
- */
-window.onload = function (elements) {
+ function mama (elements) {
 document.getElementById("demo").onclick = function() {myFunction()};
 
 // function myFunction() {
